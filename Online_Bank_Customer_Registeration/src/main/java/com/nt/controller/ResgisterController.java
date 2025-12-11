@@ -66,7 +66,7 @@ public class ResgisterController {
 						.message("All Bank Users List").list(showAllUsers).build());
 	}
 
-	@PostMapping("/accoutgetbyid/{id}")
+	@PostMapping("/accountgetbyid/{id}")
 	public ResponseEntity<ResponseMessage> getOneUserById(@PathVariable int id) {
 
 		if (id <= 0) {
@@ -95,5 +95,10 @@ public class ResgisterController {
 				.body(ResponseMessage.builder().statusCode(HttpURLConnection.HTTP_ACCEPTED).status(Constants.SUCEESS)
 						.message("User Deleted Successfull!").object(deleteBankUserById).build());
 	}
+	
+	
+	
+	
+	
 
 }
