@@ -5,7 +5,6 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -146,6 +145,40 @@ public class RegisterServiceImpl implements RegisterService {
 		ResponseDto dto = new ResponseDto();
 		BeanUtils.copyProperties(userById, dto);
 		return dto;
+	}
+
+	@Override
+	public List<ResponseDto> saveUserList(List<RequestDto> list) {
+		
+		   // Step 1: Check if any email already exists
+	    for (RequestDto dto : list) {
+	        if (registerRepository.existsByEmail(dto.getEmail())) {
+	            throw new EmailExitException("Email already exists: " + dto.getEmail());
+	        }
+	    }
+		
+		List<RegisterUser> entity = list.stream().map(dto -> {
+			
+			RegisterUser user = new RegisterUser();
+			
+			BeanUtils.copyProperties(dto, user);
+			
+			return user;
+		}).toList();
+		
+		List<RegisterUser>  registeredlist = registerRepository.saveAll(entity);
+		
+		return registeredlist.stream().map(dto ->{
+			
+			ResponseDto responseUser = new ResponseDto();
+			
+			BeanUtils.copyProperties( registeredlist,responseUser);
+			
+			return responseUser;
+			
+		}).toList(); 
+		
+		
 	}
 
 }

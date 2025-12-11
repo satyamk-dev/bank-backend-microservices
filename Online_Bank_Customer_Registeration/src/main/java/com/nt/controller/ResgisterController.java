@@ -96,6 +96,34 @@ public class ResgisterController {
 						.message("User Deleted Successfull!").object(deleteBankUserById).build());
 	}
 	
+	@PostMapping("/savelist")
+	public ResponseEntity<ResponseMessage> registerListOFAccount(@RequestBody List<RequestDto> userList) {
+		
+		if(userList.isEmpty()){
+			 
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body(ResponseMessage.builder().statusCode(HttpURLConnection.HTTP_BAD_REQUEST)
+							.status(Constants.FAILED).message("Invalid Details").build());
+		}
+		
+		
+		List<ResponseDto> saveUserList = registerService.saveUserList(userList);
+		
+		if(!saveUserList.isEmpty()) {
+			
+			return ResponseEntity.status(HttpStatus.CREATED)
+					.body(ResponseMessage.builder().statusCode(HttpURLConnection.HTTP_CREATED).status(Constants.SUCEESS)
+							.message("Users Save Successfull!").list(saveUserList).build());
+			
+		}
+	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(ResponseMessage.builder().statusCode(HttpURLConnection.HTTP_BAD_REQUEST)
+						.status(Constants.FAILED).message("User save Failed").build());
+		
+	}
+	
+	
 	
 	
 	

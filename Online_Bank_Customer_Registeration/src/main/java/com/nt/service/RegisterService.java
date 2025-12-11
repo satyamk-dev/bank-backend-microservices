@@ -19,6 +19,9 @@ public interface RegisterService {
 	//This abstract method for deleting users by id
 	public ResponseDto deleteBankUserById(Integer id);
 	
+	//This abstract method for save list of Users
+	public List<ResponseDto> saveUserList(List<RequestDto> list); 
+	
 
 	
 	

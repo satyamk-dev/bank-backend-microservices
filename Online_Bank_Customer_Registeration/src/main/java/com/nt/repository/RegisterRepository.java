@@ -7,5 +7,9 @@ import com.nt.entity.RegisterUser;
 
 @Repository
 public interface RegisterRepository extends JpaRepository<RegisterUser, Integer> {
-	 boolean existsByEmail(String email);
+
+	boolean existsByEmail(String email);
+
+
+	 
 }
